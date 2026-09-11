@@ -11,11 +11,13 @@
     {{#memberList}}
         <tr>
             <th scope = "col">{{id}}</th>
-            <th>{{email}}</th>
+            <th><a href = "/members/{{id}}">{{email}}</a></th>
             <td>{{password}}</td>
         </tr>
     {{/memberList}}
 
     </tbody>
 </table>
+<a href = "/signup">회원 가입</a>
+
 {{>layouts/footer}}

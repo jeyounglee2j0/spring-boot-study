@@ -22,7 +22,7 @@ public class MemberController {
     private MemberRepository memberRepository;
 
     @GetMapping("/signup")
-    public String sginUpPage(){
+    public String signUpPage(){
         return "members/new";
     }
 
@@ -33,13 +33,14 @@ public class MemberController {
         log.info(member.toString());
         Member saved = memberRepository.save(member);
         log.info(saved.toString());
-        return "/signup";
+        return "redirect:/members/" + saved.getId();
     }
 
     @GetMapping("/members/{id}")
     public String show(@PathVariable Long id, Model model){
+        log.info("id = " + id);
         Member memberEntity = memberRepository.findById(id).orElse(null);
-        model.addAttribute("member", memberEntity);
+        model.addAttribute("members", memberEntity);
         return "members/show";
     }
 
@@ -48,5 +49,26 @@ public class MemberController {
         ArrayList<Member> memberList = memberRepository.findAll();
         model.addAttribute("memberList", memberList);
         return "members/index";
+    }
+
+    @GetMapping("/members/{id}/edit")
+    public String edit(@PathVariable Long id, Model model){
+
+        Member memberEntity = memberRepository.findById(id).orElse(null);
+        model.addAttribute("member", memberEntity);
+
+        return "members/edit";
+    }
+
+    @PostMapping("/members/update")
+    public String update(MemberForm form){
+        Member memberEntity = form.toEntity();
+        log.info(form.toString());
+
+        Member target = memberRepository.findById(memberEntity.getId()).orElse(null);
+        if (target != null){
+            memberRepository.save(memberEntity);
+        }
+        return "redirect:/members/" + memberEntity.getId();
     }
 }
