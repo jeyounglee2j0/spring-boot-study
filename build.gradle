@@ -34,3 +34,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// 소스 파일은 UTF-8로 저장되어 있으므로 명시적으로 지정 (gradle.properties의 MS949 설정과 무관하게 유지)
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+}
