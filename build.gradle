@@ -33,6 +33,10 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	// 테스트를 돌리는 JVM(워커 프로세스)의 기본 인코딩을 UTF-8로 고정합니다.
+	// gradle.properties의 -Dfile.encoding=MS949는 Gradle 데몬에만 적용되고 이 테스트 워커 JVM에는
+	// 적용되지 않아서, 지정을 안 해두면 Windows 한글 로캘 기본값(MS949)으로 실행됩니다.
+	systemProperty 'file.encoding', 'UTF-8'
 }
 
 // 소스 파일은 UTF-8로 저장되어 있으므로 명시적으로 지정 (gradle.properties의 MS949 설정과 무관하게 유지)
